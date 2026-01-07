@@ -11,20 +11,52 @@ ${marker}
 
   function act(){
     if(CFG.actionType==="mouse"){
-      // Simulate left mouse click at center of viewport
       const el = document.elementFromPoint(window.innerWidth/2, window.innerHeight/2);
-      el?.dispatchEvent(new MouseEvent("mousedown", {bubbles:true, button:0}));
-      el?.dispatchEvent(new MouseEvent("mouseup", {bubbles:true, button:0}));
-      el?.dispatchEvent(new MouseEvent("click", {bubbles:true, button:0}));
+      if(!el) return;
+      ["pointerdown","mousedown","pointerup","mouseup","click"].forEach(type => {
+        const ev = new PointerEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          pointerId: 1,
+          clientX: window.innerWidth/2,
+          clientY: window.innerHeight/2,
+          button: 0
+        });
+        el.dispatchEvent(ev);
+      });
     } else {
-      // Keyboard key press
-      document.dispatchEvent(new KeyboardEvent("keydown",{key:CFG.actionKey,bubbles:true}));
-      document.dispatchEvent(new KeyboardEvent("keyup",{key:CFG.actionKey,bubbles:true}));
+      // Fully compatible keyboard event for games
+      document.dispatchEvent(
+        new KeyboardEvent("keydown", { 
+          key: CFG.actionKey, 
+          code: CFG.actionKey, 
+          bubbles: true, 
+          cancelable: true 
+        })
+      );
+      document.dispatchEvent(
+        new KeyboardEvent("keyup", { 
+          key: CFG.actionKey, 
+          code: CFG.actionKey, 
+          bubbles: true, 
+          cancelable: true 
+        })
+      );
     }
   }
 
-  function start(){ if(timer) return; timer=setInterval(act,CFG.interval); active=true; updateOverlay(); }
-  function stop(){ clearInterval(timer); timer=null; active=false; updateOverlay(); }
+  function start(){ 
+    if(timer) return; 
+    timer = setInterval(act, CFG.interval); 
+    active = true; 
+    updateOverlay(); 
+  }
+  function stop(){ 
+    clearInterval(timer); 
+    timer=null; 
+    active=false; 
+    updateOverlay(); 
+  }
 
   document.addEventListener("keydown", e => {
     if(e.key !== CFG.activationKey) return;
