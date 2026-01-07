@@ -1,55 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>HTML Autoclicker Injector</title>
+  <meta charset="utf-8">
+  <title>Autoclicker Injector — Upload</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<h1>HTML Autoclicker Injector</h1>
+<h1>Autoclicker Injector</h1>
 
 <div class="panel">
   <input type="file" id="fileInput" accept=".html,.htm">
-
-  <label>Action Type
-    <select id="actionType">
-      <option value="mouse">Mouse Click</option>
-      <option value="keyboard">Keyboard Key</option>
-    </select>
+  
+  <label>Activation Key:
+    <input type="text" id="activationKey" value="F6">
   </label>
-
-  <label>Automated Key
-    <input id="actionKey" value="Space">
+  
+  <label>Action Key:
+    <input type="text" id="actionKey" value="Space">
   </label>
-
-  <label>Activation Key
-    <input id="activationKey" value="F6">
-  </label>
-
-  <label>Mode
+  
+  <label>Mode:
     <select id="mode">
       <option value="toggle">Toggle</option>
       <option value="hold">Hold</option>
     </select>
   </label>
-
-  <label>Interval (ms)
+  
+  <label>Interval (ms):
     <input type="number" id="interval" value="50">
   </label>
-
+  
   <label><input type="checkbox" id="overlay" checked> Show overlay</label>
   <label><input type="checkbox" id="blurStop" checked> Stop on tab blur</label>
 
-  <button id="process">Process & Download</button>
-
+  <button id="processBtn">Process & Download</button>
   <p id="status"></p>
 </div>
 
-<!-- JS files -->
-<script src="utils.js"></script>
+<script src="browser-patcher.js"></script>
 <script src="injector.js"></script>
-<script src="app.js"></script>
-
 </body>
 </html>
