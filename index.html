@@ -11,26 +11,33 @@
 
 <div class="panel">
   <input type="file" id="fileInput" accept=".html,.htm">
-  
+
+  <label>Action Type:
+    <select id="actionType">
+      <option value="mouse">Mouse Click</option>
+      <option value="keyboard">Keyboard Key</option>
+    </select>
+  </label>
+
+  <label>Automated Key (ignored for mouse):
+    <input type="text" id="actionKey" value="Space">
+  </label>
+
   <label>Activation Key:
     <input type="text" id="activationKey" value="F6">
   </label>
-  
-  <label>Action Key:
-    <input type="text" id="actionKey" value="Space">
-  </label>
-  
+
   <label>Mode:
     <select id="mode">
       <option value="toggle">Toggle</option>
       <option value="hold">Hold</option>
     </select>
   </label>
-  
+
   <label>Interval (ms):
     <input type="number" id="interval" value="50">
   </label>
-  
+
   <label><input type="checkbox" id="overlay" checked> Show overlay</label>
   <label><input type="checkbox" id="blurStop" checked> Stop on tab blur</label>
 
