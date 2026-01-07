@@ -1,17 +1,16 @@
-function injectAutoclicker(html, cfg) {
-  const id = generateId();
+window.patchClient = function(html, cfg) {
+  const marker = "<!-- AUTCLICKER_INJECTOR -->";
+  if (html.includes(marker)) return html; // Prevent double injection
 
   const injection = `
-<!-- === AUTCLICKER INJECTOR START (${id}) === -->
+${marker}
 <script>
 (function(){
-  window.__AUTCLICKER_REGISTRY__ ||= { instances: [], activeKeys: {} };
-
   const CFG = ${JSON.stringify(cfg)};
   let active=false, timer=null, held=false;
 
   function act(){
-    if(CFG.actionType==="mouse"){
+    if(CFG.actionKey==="mouse"){
       document.elementFromPoint(innerWidth/2,innerHeight/2)
         ?.dispatchEvent(new MouseEvent("click",{bubbles:true}));
     } else {
@@ -25,19 +24,17 @@ function injectAutoclicker(html, cfg) {
 
   document.addEventListener("keydown", e => {
     if(e.key !== CFG.activationKey) return;
-    if(CFG.mode === "toggle") active ? stop() : start();
-    else if(CFG.mode === "hold" && !held) { held = true; start(); }
+    if(CFG.mode==="toggle") active?stop():start();
+    else if(CFG.mode==="hold" && !held){ held=true; start(); }
   });
 
   document.addEventListener("keyup", e => {
-    if(CFG.mode === "hold" && e.key === CFG.activationKey){ held=false; stop(); }
+    if(CFG.mode==="hold" && e.key===CFG.activationKey){ held=false; stop(); }
   });
 
   if(CFG.stopOnBlur) window.addEventListener("blur", stop);
 
-  window.__AUTCLICKER_REGISTRY__.instances.push({ stop });
-
-  // Optional overlay
+  // Overlay
   let overlay;
   function updateOverlay(){
     if(!overlay) return;
@@ -47,16 +44,14 @@ function injectAutoclicker(html, cfg) {
   if(CFG.showOverlay){
     overlay = document.createElement("div");
     overlay.style="position:fixed;bottom:10px;right:10px;background:#000;color:#0f0;padding:6px;font:12px monospace;z-index:999999;";
-    overlay.textContent = `Autoclicker (${CFG.activationKey}): OFF`;
+    overlay.textContent = \`Autoclicker (\${CFG.activationKey}): OFF\`;
     document.body.appendChild(overlay);
   }
 
 })();
 </script>
-<!-- === AUTCLICKER INJECTOR END (${id}) === -->
+${marker}
 `;
 
-  return html.includes("</body>")
-    ? html.replace(/<\/body>/i, injection + "\n</body>")
-    : html + injection;
-}
+  return html.includes("</body>") ? html.replace(/<\/body>/i, injection + "\n</body>") : html + injection;
+};
