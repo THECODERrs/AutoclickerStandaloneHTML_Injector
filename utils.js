@@ -1,3 +1,7 @@
+function generateId() { 
+  return "ac_" + Math.random().toString(36).slice(2); 
+}
+
 function isHtmlExtension(file) {
   return /\.html?$/i.test(file.name);
 }
@@ -12,8 +16,4 @@ function findActivationKeys(html) {
   let m;
   while ((m = regex.exec(html))) keys.push(m[1]);
   return keys;
-}
-
-function generateId() {
-  return "ac_" + Math.random().toString(36).slice(2);
 }
