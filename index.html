@@ -15,7 +15,7 @@
   <label>Action Type
     <select id="actionType">
       <option value="mouse">Mouse Click</option>
-      <option value="keyboard">Keyboard</option>
+      <option value="keyboard">Keyboard Key</option>
     </select>
   </label>
 
@@ -39,15 +39,17 @@
   </label>
 
   <label><input type="checkbox" id="overlay" checked> Show overlay</label>
-  <label><input type="checkbox" id="blurStop" checked> Stop on blur</label>
+  <label><input type="checkbox" id="blurStop" checked> Stop on tab blur</label>
 
   <button id="process">Process & Download</button>
 
   <p id="status"></p>
 </div>
 
+<!-- JS files -->
 <script src="utils.js"></script>
 <script src="injector.js"></script>
 <script src="app.js"></script>
+
 </body>
 </html>
