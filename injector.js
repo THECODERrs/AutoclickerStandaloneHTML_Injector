@@ -20,22 +20,37 @@ function injectAutoclicker(html, cfg) {
     }
   }
 
-  function start(){ if(timer) return; timer=setInterval(act,CFG.interval); active=true; }
-  function stop(){ clearInterval(timer); timer=null; active=false; }
+  function start(){ if(timer) return; timer=setInterval(act,CFG.interval); active=true; updateOverlay(); }
+  function stop(){ clearInterval(timer); timer=null; active=false; updateOverlay(); }
 
-  document.addEventListener("keydown",e=>{
-    if(e.key!==CFG.activationKey) return;
-    CFG.mode==="toggle" ? (active?stop():start()) :
-    (!held && (held=true,start()));
+  document.addEventListener("keydown", e => {
+    if(e.key !== CFG.activationKey) return;
+    if(CFG.mode === "toggle") active ? stop() : start();
+    else if(CFG.mode === "hold" && !held) { held = true; start(); }
   });
 
-  document.addEventListener("keyup",e=>{
-    if(CFG.mode==="hold" && e.key===CFG.activationKey){ held=false; stop(); }
+  document.addEventListener("keyup", e => {
+    if(CFG.mode === "hold" && e.key === CFG.activationKey){ held=false; stop(); }
   });
 
-  if(CFG.stopOnBlur) window.addEventListener("blur",stop);
+  if(CFG.stopOnBlur) window.addEventListener("blur", stop);
 
   window.__AUTCLICKER_REGISTRY__.instances.push({ stop });
+
+  // Optional overlay
+  let overlay;
+  function updateOverlay(){
+    if(!overlay) return;
+    overlay.textContent = \`Autoclicker (\${CFG.activationKey}): \${active?"ON":"OFF"}\`;
+  }
+
+  if(CFG.showOverlay){
+    overlay = document.createElement("div");
+    overlay.style="position:fixed;bottom:10px;right:10px;background:#000;color:#0f0;padding:6px;font:12px monospace;z-index:999999;";
+    overlay.textContent = `Autoclicker (${CFG.activationKey}): OFF`;
+    document.body.appendChild(overlay);
+  }
+
 })();
 </script>
 <!-- === AUTCLICKER INJECTOR END (${id}) === -->
