@@ -10,6 +10,7 @@ processBtn.onclick = async () => {
 
   const activationKey = document.getElementById("activationKey").value.trim();
   const cfg = {
+    actionType: document.getElementById("actionType").value,
     actionKey: document.getElementById("actionKey").value.trim(),
     activationKey,
     mode: document.getElementById("mode").value,
