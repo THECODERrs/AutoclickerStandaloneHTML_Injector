@@ -10,10 +10,14 @@ ${marker}
   let active=false, timer=null, held=false;
 
   function act(){
-    if(CFG.actionKey==="mouse"){
-      document.elementFromPoint(innerWidth/2,innerHeight/2)
-        ?.dispatchEvent(new MouseEvent("click",{bubbles:true}));
+    if(CFG.actionType==="mouse"){
+      // Simulate left mouse click at center of viewport
+      const el = document.elementFromPoint(window.innerWidth/2, window.innerHeight/2);
+      el?.dispatchEvent(new MouseEvent("mousedown", {bubbles:true, button:0}));
+      el?.dispatchEvent(new MouseEvent("mouseup", {bubbles:true, button:0}));
+      el?.dispatchEvent(new MouseEvent("click", {bubbles:true, button:0}));
     } else {
+      // Keyboard key press
       document.dispatchEvent(new KeyboardEvent("keydown",{key:CFG.actionKey,bubbles:true}));
       document.dispatchEvent(new KeyboardEvent("keyup",{key:CFG.actionKey,bubbles:true}));
     }
