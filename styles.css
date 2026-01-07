@@ -1,0 +1,38 @@
+body {
+  background: #0b0b0b;
+  color: #eee;
+  font-family: system-ui, sans-serif;
+  padding: 30px;
+}
+
+.panel {
+  max-width: 420px;
+  background: #161616;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+}
+
+input, select, button {
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px;
+  background: #1f1f1f;
+  border: 1px solid #333;
+  color: #fff;
+}
+
+button {
+  margin-top: 18px;
+  background: #0a84ff;
+  border: none;
+  cursor: pointer;
+}
+
+#status {
+  margin-top: 10px;
+}
